@@ -34,7 +34,7 @@ const config: VitestConfigExport = {
       '@contexts': join(__dirname, 'src/contexts'),
       '@hooks': join(__dirname, 'src/hooks'),
       '@lib': join(__dirname, 'src/lib'),
-      '@msw': join(__dirname, 'src/msw'),
+      '@msw': join(__dirname, 'src/msw/index.ts'),
       '@tests': join(__dirname, 'src/tests'),
       '@views': join(__dirname, 'src/views'),
     },
