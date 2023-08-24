@@ -2,7 +2,7 @@ import ErrorMessage from '@components/common/ErrorMessage';
 import Loading from '@components/common/Loading';
 import useUser from '@hooks/swr/useUser';
 import { getTenantId, setTenantId as setStorageTenantId } from '@lib/getTenantId';
-import { createContext, useCallback, useState } from 'react';
+import { createContext, useCallback, useEffect, useState } from 'react';
 
 const initialContext: IUserContext = {
   user: {
@@ -21,14 +21,20 @@ export function UserContextProvider({ children }: IParent) {
 
   const { data: user, isLoading, error } = useUser();
 
-  const switchTanant = useCallback((accountId?: string) => {
-    if (!accountId) {
+  const switchTanant = useCallback((_tenantId?: string) => {
+    if (!_tenantId) {
       return;
     }
 
-    setStorageTenantId(accountId);
-    setTenantId(accountId);
+    setStorageTenantId(_tenantId);
+    setTenantId(_tenantId);
   }, []);
+
+  useEffect(() => {
+    if (!!user && !tenantId) {
+      switchTanant(user.tenants[0].id);
+    }
+  }, [switchTanant, user, tenantId]);
 
   if (isLoading) {
     return <Loading float />;

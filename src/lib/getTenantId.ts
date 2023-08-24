@@ -28,5 +28,5 @@ export function setTenantId(tenantId?: string) {
     window.history.replaceState(null, '', `?${LocalStorageKey.tenantId}=${tenantId}`);
   }
 
-  window.sessionStorage.setItem(LocalStorageKey.tenantId, tenantId);
+  window.localStorage.setItem(LocalStorageKey.tenantId, tenantId);
 }
