@@ -16,6 +16,7 @@
   "plugins": ["prettier", "react-refresh"],
   "rules": {
     "react-refresh/only-export-components": ["warn", { "allowConstantExport": true }],
+    "no-extra-boolean-cast": "off",
     "prettier/prettier": [
       "warn",
       {

@@ -1,10 +1,12 @@
-import type { SxProps, TypographyProps, StackProps, ButtonProps } from '@mui/material';
+import type { SxProps, TypographyProps, StackProps } from '@mui/material';
+import type { ActionButtonProps } from './ActionButton';
 import GppMaybeIcon from '@mui/icons-material/GppMaybe';
-import { Stack, Typography, Button } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
+import ActionButton from './ActionButton';
 
 interface ErrorMessageProps extends Partial<StackProps> {
   message: string;
-  action?: Partial<Omit<ButtonProps, 'children'>> & { label: string };
+  action?: ActionButtonProps;
   IconProps?: SxProps;
   TypographyProps?: Partial<Omit<TypographyProps, 'children'>>;
 }
@@ -43,11 +45,7 @@ export default function ErrorMessage({
         {message}
       </Typography>
 
-      {!!action?.label && (
-        <Button variant="contained" color="error" {...action}>
-          {action.label}
-        </Button>
-      )}
+      {!!action?.label && <ActionButton variant="contained" color="error" {...action} />}
     </Stack>
   );
 }
