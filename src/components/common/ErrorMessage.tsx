@@ -29,7 +29,7 @@ export default function ErrorMessage({
     >
       <GppMaybeIcon
         sx={{
-          color: ({ palette }) => palette.error.main,
+          color: ({ palette }) => palette.error.dark,
           width: 96,
           height: 96,
           ...IconProps,
@@ -45,7 +45,9 @@ export default function ErrorMessage({
         {message}
       </Typography>
 
-      {!!action?.label && <ActionButton variant="contained" color="error" {...action} />}
+      {!!action?.label && (
+        <ActionButton variant="contained" color="secondary" {...action} />
+      )}
     </Stack>
   );
 }
