@@ -1,1 +1,1 @@
-type IParent<T extends object = object> = T & { children: React.ReactNode };
+type IParent<T extends object = object> = T & { children?: React.ReactNode };

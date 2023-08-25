@@ -1,5 +1,5 @@
 interface IUserContext {
   user: User;
-  tenantId?: string;
-  switchTanant: () => void;
+  tenant?: Tenant;
+  switchTanant: (tenantId?: string) => void;
 }

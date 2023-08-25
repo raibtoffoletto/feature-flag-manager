@@ -2,7 +2,7 @@ import ErrorMessage from '@components/common/ErrorMessage';
 import Loading from '@components/common/Loading';
 import useUser from '@hooks/swr/useUser';
 import { getTenantId, setTenantId as setStorageTenantId } from '@lib/getTenantId';
-import { createContext, useCallback, useEffect, useState } from 'react';
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 
 const initialContext: IUserContext = {
   user: {
@@ -20,6 +20,11 @@ export function UserContextProvider({ children }: IParent) {
   const [tenantId, setTenantId] = useState<string | undefined>(initialTenantId);
 
   const { data: user, isLoading, error } = useUser();
+
+  const tenant = useMemo(
+    () => user?.tenants?.find?.((t) => t.id === tenantId),
+    [user, tenantId],
+  );
 
   const switchTanant = useCallback((_tenantId?: string) => {
     if (!_tenantId) {
@@ -53,7 +58,7 @@ export function UserContextProvider({ children }: IParent) {
   }
 
   return (
-    <UserContext.Provider value={{ user, tenantId, switchTanant }}>
+    <UserContext.Provider value={{ user, tenant, switchTanant }}>
       {children}
     </UserContext.Provider>
   );
