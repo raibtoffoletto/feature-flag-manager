@@ -30,7 +30,8 @@
       "@hooks/*": ["src/hooks/*"],
       "@lib/*": ["src/lib/*"],
       "@msw": ["src/msw"],
-      "@tests/*": ["src/tests/*"],
+      "@tests": ["src/tests"],
+      "@testIds": ["src/tests/ids"],
       "@views/*": ["src/views/*"]
     },
 

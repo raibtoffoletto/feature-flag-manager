@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { LayoutProvider } from '@contexts/Layout.tsx';
+import Router from '@views/Router';
 import { ThemeProvider } from '@contexts/Theme.tsx';
 import { UserContextProvider } from '@contexts/User.tsx';
 import sw from '@msw';
@@ -17,7 +17,7 @@ if (!root) {
 createRoot(root).render(
   <ThemeProvider>
     <UserContextProvider>
-      <LayoutProvider></LayoutProvider>
+      <Router />
     </UserContextProvider>
   </ThemeProvider>,
 );

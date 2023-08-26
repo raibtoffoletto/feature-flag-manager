@@ -6,11 +6,19 @@ import {
   ListItemText,
   Menu,
   MenuItem,
-  IconButton,
+  Button,
   Stack,
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import testIds from '@testIds';
+
+const SX = {
+  textTransform: 'capitalize',
+  textAlign: 'right',
+  lineHeight: 1,
+  userSelect: 'none',
+};
 
 export default function UserMenu() {
   const { user, tenant, switchTanant } = useUserContext();
@@ -22,44 +30,33 @@ export default function UserMenu() {
 
   return (
     <>
-      <Stack direction="row" alignItems="center">
-        <Stack gap={0.5}>
-          <Typography
-            textAlign="right"
-            variant="overline"
-            lineHeight={1}
-            textTransform="capitalize"
-          >
-            {user.name}
-          </Typography>
-
-          <Typography
-            textAlign="right"
-            variant="caption"
-            lineHeight={1}
-            color="text.secondary"
-          >
-            {tenant?.name}
-          </Typography>
-        </Stack>
-
-        <IconButton
-          color="primary"
-          aria-label="user account"
-          aria-controls="menu-appbar"
-          aria-haspopup="true"
-          onClick={(e) => {
-            setAnchor(e.currentTarget);
-          }}
-        >
+      <Button
+        aria-label="user account"
+        aria-controls="menu-appbar"
+        aria-haspopup="true"
+        data-testid={testIds.UserMenu.button}
+        onClick={(e) => {
+          setAnchor(e.currentTarget);
+        }}
+        endIcon={
           <AccountCircle
             sx={{
               width: 32,
               height: 32,
             }}
           />
-        </IconButton>
-      </Stack>
+        }
+      >
+        <Stack gap={0.5}>
+          <Typography variant="overline" color="text.primary" sx={SX}>
+            {user.name}
+          </Typography>
+
+          <Typography variant="caption" color="text.secondary" sx={SX}>
+            {tenant?.name}
+          </Typography>
+        </Stack>
+      </Button>
 
       {!!anchor && (
         <Menu
@@ -67,6 +64,7 @@ export default function UserMenu() {
           id="menu-appbar"
           anchorEl={anchor}
           onClose={handleClose}
+          data-testid={testIds.UserMenu.menu}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'center',
@@ -76,22 +74,28 @@ export default function UserMenu() {
             horizontal: 'center',
           }}
         >
-          {user.tenants.map((_tenant) => (
-            <MenuItem
-              key={_tenant.id}
-              selected={_tenant.id === tenant?.id}
-              onClick={() => {
-                handleClose();
-                switchTanant(_tenant.id);
-              }}
-            >
-              <ListItemIcon>
-                <BusinessCenter fontSize="small" />
-              </ListItemIcon>
+          {user.tenants.map((_tenant) => {
+            const selected = _tenant.id === tenant?.id;
 
-              <ListItemText>{_tenant.name}</ListItemText>
-            </MenuItem>
-          ))}
+            return (
+              <MenuItem
+                key={_tenant.id}
+                selected={selected}
+                data-selected={selected}
+                data-testid={_tenant.name}
+                onClick={() => {
+                  handleClose();
+                  switchTanant(_tenant.id);
+                }}
+              >
+                <ListItemIcon>
+                  <BusinessCenter fontSize="small" />
+                </ListItemIcon>
+
+                <ListItemText>{_tenant.name}</ListItemText>
+              </MenuItem>
+            );
+          })}
 
           <Divider />
 

@@ -35,7 +35,8 @@ const config: VitestConfigExport = {
       '@hooks': join(__dirname, 'src/hooks'),
       '@lib': join(__dirname, 'src/lib'),
       '@msw': join(__dirname, 'src/msw/index.ts'),
-      '@tests': join(__dirname, 'src/tests'),
+      '@tests': join(__dirname, 'src/tests/index.ts'),
+      '@testIds': join(__dirname, 'src/tests/ids.ts'),
       '@views': join(__dirname, 'src/views'),
     },
   },
@@ -70,7 +71,7 @@ const config: VitestConfigExport = {
 
     environment: 'jsdom',
 
-    setupFiles: './setupTests.ts',
+    setupFiles: './src/tests/setup.ts',
   },
 };
 

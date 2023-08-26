@@ -1,5 +1,6 @@
 import type { BoxProps, CircularProgressProps } from '@mui/material';
 import { Box, CircularProgress } from '@mui/material';
+import testIds from '@testIds';
 
 export interface LoadingProps {
   float?: boolean;
@@ -15,6 +16,7 @@ export default function Loading({
   return (
     <Box
       {...BoxProps}
+      data-testid={testIds.Loading}
       sx={{
         BoxPropsdisplay: 'flex',
         width: 40,

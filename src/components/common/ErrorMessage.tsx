@@ -2,9 +2,10 @@ import type { SxProps, TypographyProps, StackProps } from '@mui/material';
 import type { ActionButtonProps } from './ActionButton';
 import GppMaybeIcon from '@mui/icons-material/GppMaybe';
 import { Stack, Typography } from '@mui/material';
+import testIds from '@testIds';
 import ActionButton from './ActionButton';
 
-interface ErrorMessageProps extends Partial<StackProps> {
+export interface ErrorMessageProps extends Partial<StackProps> {
   message: string;
   action?: ActionButtonProps;
   IconProps?: SxProps;
@@ -26,6 +27,7 @@ export default function ErrorMessage({
       p={4}
       gap={4}
       {...props}
+      data-testid={testIds.ErrorMessage}
     >
       <GppMaybeIcon
         sx={{

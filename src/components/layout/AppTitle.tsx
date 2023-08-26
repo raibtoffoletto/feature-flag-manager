@@ -1,5 +1,6 @@
 import { Stack, Typography, Box } from '@mui/material';
 import { CloudSync } from '@mui/icons-material';
+import testIds from '@testIds';
 
 function AppText({
   color,
@@ -21,6 +22,7 @@ function AppText({
         fontSize: '2rem',
         textTransform: 'capitalize',
         fontWeight: bold ? 500 : 400,
+        userSelect: 'none',
       }}
     >
       {initial}
@@ -33,7 +35,7 @@ function AppText({
 
 export default function AppTitle() {
   return (
-    <Stack direction="row" alignItems="flex-end">
+    <Stack direction="row" alignItems="flex-end" data-testid={testIds.AppTitle}>
       <AppText color="primary.main" label="Feature" bold />
 
       <AppText color="primary.light" label="Flag" />

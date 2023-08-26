@@ -1,6 +1,6 @@
 import Topbar from '@components/layout/Topbar';
 
-export function LayoutProvider({ children }: IParent) {
+export default function Layout({ children }: IParent) {
   return (
     <>
       <Topbar />
