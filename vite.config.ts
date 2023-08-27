@@ -1,8 +1,8 @@
-import type { UserConfig } from 'vite';
-import type { InlineConfig } from 'vitest';
-import { join } from 'path';
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { join } from 'path';
+import type { UserConfig } from 'vite';
+import { defineConfig } from 'vite';
+import type { InlineConfig } from 'vitest';
 import { dependencies } from './package.json';
 
 interface VitestConfigExport extends UserConfig {
@@ -75,6 +75,7 @@ const config: VitestConfigExport = {
 
     coverage: {
       provider: 'istanbul',
+      exclude: ['**/src/api/**', '**/src/msw/**', '**/src/tests/**', '**/src/types/**'],
     },
   },
 };

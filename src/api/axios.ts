@@ -1,7 +1,7 @@
-import type { AxiosError, AxiosRequestHeaders, AxiosResponse } from 'axios';
-import axiosLib from 'axios';
 import { LocalStorageKey } from '@constants';
 import { getTenantId } from '@lib/getTenantId';
+import type { AxiosError, AxiosRequestHeaders, AxiosResponse } from 'axios';
+import axiosLib from 'axios';
 
 const axios = axiosLib.create({
   withCredentials: true,
