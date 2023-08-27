@@ -72,6 +72,10 @@ const config: VitestConfigExport = {
     environment: 'jsdom',
 
     setupFiles: './src/tests/setup.ts',
+
+    coverage: {
+      provider: 'istanbul',
+    },
   },
 };
 
