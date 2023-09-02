@@ -5,3 +5,8 @@ export const API = Object.freeze({
 export const LocalStorageKey = Object.freeze({
   tenantId: 'TenantId',
 });
+
+export const AppRoutes = Object.freeze({
+  root: '/',
+  settings: '/settings',
+});

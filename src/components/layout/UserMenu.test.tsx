@@ -1,20 +1,27 @@
-import {
-  describe,
-  expect,
-  it,
-  testData,
-  render,
-  screen,
-  TestProvider,
-  userEvent,
-  waitFor,
-} from '@tests';
+import { AppRoutes } from '@constants';
 import testIds from '@testIds';
+import { TestProvider, render, screen, testData, userEvent, waitFor } from '@tests';
+import { afterAll, describe, expect, it, vi } from 'vitest';
 import UserMenu from './UserMenu';
 
 const { name, tenants } = testData.user;
 
+const mockNavigate = vi.fn();
+
+vi.mock('react-router-dom', async () => {
+  const actual: any = await vi.importActual('react-router-dom');
+
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+  };
+});
+
 describe('<UserMenu />', () => {
+  afterAll(() => {
+    vi.restoreAllMocks();
+  });
+
   async function setup() {
     render(
       <TestProvider>
@@ -57,7 +64,7 @@ describe('<UserMenu />', () => {
     expect(menuItem.getAttribute('data-selected')).toBe('true');
   });
 
-  it('switch tenant when using the menu', async () => {
+  it('switchs tenant when using the menu', async () => {
     const nextTenant = tenants[2].name;
 
     await setup();
@@ -74,5 +81,20 @@ describe('<UserMenu />', () => {
     await openMenu();
 
     expect(screen.getByTestId(nextTenant).getAttribute('data-selected')).toBe('true');
+  });
+
+  it('navigates to settings page', async () => {
+    await setup();
+
+    await openMenu();
+
+    await userEvent.click(screen.getByTestId(testIds.UserMenu.settings));
+
+    await waitFor(() => {
+      expect(screen.queryByTestId(testIds.UserMenu.menu)).not.toBeInTheDocument();
+    });
+
+    expect(mockNavigate).toHaveBeenCalledOnce();
+    expect(mockNavigate).toHaveBeenCalledWith(AppRoutes.settings);
   });
 });

@@ -15,7 +15,7 @@ export function ThemeProvider({ children }: IParent) {
           MuiCssBaseline: {
             styleOverrides: `
               body {
-                padding: 0px 8px 8px 8px;
+                padding: 0px 8px 16px 8px;
                 display: flex;
                 flex-direction: column;
                 overflow-x: hidden;

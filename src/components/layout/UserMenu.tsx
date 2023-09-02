@@ -1,17 +1,20 @@
+import { AppRoutes } from '@constants';
 import useUserContext from '@hooks/context/useUserContext';
-import { AccountCircle, Settings, BusinessCenter } from '@mui/icons-material';
+import { AccountCircle, BusinessCenter, Settings } from '@mui/icons-material';
 import {
+  Button,
   Divider,
+  ListItem,
   ListItemIcon,
   ListItemText,
   Menu,
   MenuItem,
-  Button,
   Stack,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
 import testIds from '@testIds';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SX = {
   textTransform: 'capitalize',
@@ -21,6 +24,7 @@ const SX = {
 };
 
 export default function UserMenu() {
+  const navigate = useNavigate();
   const { user, tenant, switchTanant } = useUserContext();
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 
@@ -74,6 +78,37 @@ export default function UserMenu() {
             horizontal: 'center',
           }}
         >
+          <MenuItem
+            data-testid={testIds.UserMenu.settings}
+            onClick={() => {
+              handleClose();
+              navigate(AppRoutes.settings);
+            }}
+          >
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+
+            <ListItemText>Settings</ListItemText>
+          </MenuItem>
+
+          <Divider />
+
+          <ListItem disableGutters disablePadding>
+            <ListItemText
+              primaryTypographyProps={{
+                variant: 'overline',
+                textAlign: 'center',
+                lineHeight: 1,
+                color: 'text.secondary',
+                mb: 1,
+                sx: { userSelect: 'none' },
+              }}
+            >
+              Tenants
+            </ListItemText>
+          </ListItem>
+
           {user.tenants.map((_tenant) => {
             const selected = _tenant.id === tenant?.id;
 
@@ -96,16 +131,6 @@ export default function UserMenu() {
               </MenuItem>
             );
           })}
-
-          <Divider />
-
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-
-            <ListItemText>Settings</ListItemText>
-          </MenuItem>
         </Menu>
       )}
     </>

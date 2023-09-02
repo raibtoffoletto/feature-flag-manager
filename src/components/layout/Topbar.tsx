@@ -1,7 +1,7 @@
 import { AppBar } from '@mui/material';
 import testIds from '@testIds';
-import UserMenu from './UserMenu';
 import AppTitle from './AppTitle';
+import UserMenu from './UserMenu';
 
 export default function Topbar() {
   return (
@@ -16,6 +16,7 @@ export default function Topbar() {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        flexShrink: 0,
       }}
     >
       <AppTitle />
