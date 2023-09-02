@@ -1,5 +1,6 @@
-import { describe, expect, it, render, screen } from '@tests';
 import testIds from '@testIds';
+import { render, screen } from '@tests';
+import { describe, expect, it } from 'vitest';
 import ErrorMessage from './ErrorMessage';
 
 describe('<ErrorMessage />', () => {

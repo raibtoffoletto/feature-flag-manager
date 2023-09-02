@@ -1,13 +1,5 @@
-import {
-  TestProvider,
-  act,
-  describe,
-  expect,
-  it,
-  renderHook,
-  testData,
-  waitFor,
-} from '@tests';
+import { TestProvider, act, renderHook, testData, waitFor } from '@tests';
+import { describe, expect, it } from 'vitest';
 import useUserContext from './useUserContext';
 
 describe('useUserContext', () => {

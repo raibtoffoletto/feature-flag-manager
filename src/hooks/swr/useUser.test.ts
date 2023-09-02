@@ -1,4 +1,5 @@
-import { describe, expect, it, renderHook, waitFor, testData } from '@tests';
+import { renderHook, testData, waitFor } from '@tests';
+import { describe, expect, it } from 'vitest';
 import useUser from './useUser';
 
 describe('useUser', () => {

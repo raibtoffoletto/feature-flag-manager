@@ -1,5 +1,6 @@
-import { describe, expect, it, matchBrokenText, render, screen } from '@tests';
 import testIds from '@testIds';
+import { matchBrokenText, render, screen } from '@tests';
+import { describe, expect, it } from 'vitest';
 import AppTitle from './AppTitle';
 
 describe('<AppTitle />', () => {

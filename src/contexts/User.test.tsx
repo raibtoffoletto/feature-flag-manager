@@ -1,18 +1,9 @@
 import { API } from '@constants';
 import testIds from '@testIds';
-import {
-  describe,
-  expect,
-  it,
-  render,
-  screen,
-  server,
-  userEvent,
-  vi,
-  waitFor,
-} from '@tests';
+import { render, screen, server, userEvent, waitFor } from '@tests';
 import { rest } from 'msw';
 import { SWRConfig } from 'swr';
+import { describe, expect, it, vi } from 'vitest';
 import { UserContextProvider } from './User';
 
 describe('UserContextProvider', () => {

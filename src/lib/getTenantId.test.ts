@@ -1,5 +1,5 @@
 import { LocalStorageKey } from '@constants';
-import { afterAll, afterEach, describe, expect, it, vi } from '@tests';
+import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 import { getTenantId, setTenantId } from './getTenantId';
 
 afterEach(() => {
