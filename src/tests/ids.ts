@@ -9,5 +9,6 @@ export default {
     button: 'UserMenu-button',
     menu: 'UserMenu-menu',
     settings: 'UserMenu-settings',
+    flags: 'UserMenu-flags',
   },
 };

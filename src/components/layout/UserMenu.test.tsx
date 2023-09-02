@@ -6,7 +6,11 @@ import UserMenu from './UserMenu';
 
 const { name, tenants } = testData.user;
 
-const mockNavigate = vi.fn();
+let isSettings = false;
+
+const mockNavigate = vi.fn(() => {
+  isSettings = !isSettings;
+});
 
 vi.mock('react-router-dom', async () => {
   const actual: any = await vi.importActual('react-router-dom');
@@ -14,6 +18,7 @@ vi.mock('react-router-dom', async () => {
   return {
     ...actual,
     useNavigate: () => mockNavigate,
+    useLocation: () => ({ pathname: isSettings ? '/settings' : '/' }),
   };
 });
 
@@ -83,7 +88,7 @@ describe('<UserMenu />', () => {
     expect(screen.getByTestId(nextTenant).getAttribute('data-selected')).toBe('true');
   });
 
-  it('navigates to settings page', async () => {
+  it('navigates to settings page and back to ', async () => {
     await setup();
 
     await openMenu();
@@ -96,5 +101,18 @@ describe('<UserMenu />', () => {
 
     expect(mockNavigate).toHaveBeenCalledOnce();
     expect(mockNavigate).toHaveBeenCalledWith(AppRoutes.settings);
+
+    await openMenu();
+
+    expect(screen.queryByTestId(testIds.UserMenu.flags)).toBeInTheDocument();
+
+    await userEvent.click(screen.getByTestId(testIds.UserMenu.flags));
+
+    await waitFor(() => {
+      expect(screen.queryByTestId(testIds.UserMenu.menu)).not.toBeInTheDocument();
+    });
+
+    expect(mockNavigate).toHaveBeenCalledTimes(2);
+    expect(mockNavigate).toHaveBeenCalledWith(AppRoutes.root);
   });
 });

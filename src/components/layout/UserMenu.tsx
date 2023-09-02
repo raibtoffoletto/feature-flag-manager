@@ -1,6 +1,6 @@
 import { AppRoutes } from '@constants';
 import useUserContext from '@hooks/context/useUserContext';
-import { AccountCircle, BusinessCenter, Settings } from '@mui/icons-material';
+import { AccountCircle, BusinessCenter, Settings, Flag } from '@mui/icons-material';
 import {
   Button,
   Divider,
@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import testIds from '@testIds';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SX = {
   textTransform: 'capitalize',
@@ -23,8 +23,53 @@ const SX = {
   userSelect: 'none',
 };
 
-export default function UserMenu() {
+interface ButtonCallback {
+  onClose: () => void;
+}
+
+function SettingsButton({ onClose }: ButtonCallback) {
   const navigate = useNavigate();
+
+  return (
+    <MenuItem
+      data-testid={testIds.UserMenu.settings}
+      onClick={() => {
+        onClose();
+        navigate(AppRoutes.settings);
+      }}
+    >
+      <ListItemIcon>
+        <Settings fontSize="small" />
+      </ListItemIcon>
+
+      <ListItemText>Settings</ListItemText>
+    </MenuItem>
+  );
+}
+
+function FlagsButton({ onClose }: ButtonCallback) {
+  const navigate = useNavigate();
+
+  return (
+    <MenuItem
+      data-testid={testIds.UserMenu.flags}
+      onClick={() => {
+        onClose();
+        navigate(AppRoutes.root);
+      }}
+    >
+      <ListItemIcon>
+        <Flag fontSize="small" />
+      </ListItemIcon>
+
+      <ListItemText>Flags</ListItemText>
+    </MenuItem>
+  );
+}
+
+export default function UserMenu() {
+  const { pathname } = useLocation();
+
   const { user, tenant, switchTanant } = useUserContext();
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 
@@ -78,19 +123,11 @@ export default function UserMenu() {
             horizontal: 'center',
           }}
         >
-          <MenuItem
-            data-testid={testIds.UserMenu.settings}
-            onClick={() => {
-              handleClose();
-              navigate(AppRoutes.settings);
-            }}
-          >
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-
-            <ListItemText>Settings</ListItemText>
-          </MenuItem>
+          {new RegExp(AppRoutes.settings).test(pathname) ? (
+            <FlagsButton onClose={handleClose} />
+          ) : (
+            <SettingsButton onClose={handleClose} />
+          )}
 
           <Divider />
 
