@@ -1,4 +1,4 @@
-import Layout from '@components/common/Layout';
+import Layout from '@components/layout/Layout';
 import { AppRoutes } from '@constants';
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
