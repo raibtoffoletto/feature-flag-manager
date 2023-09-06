@@ -1,9 +1,20 @@
-interface Tenant {
+type Tenant = {
   id: string;
   name: string;
-}
+};
 
-interface User {
+type User = {
   name: string;
   tenants: Tenant[];
-}
+};
+
+type Environment = {
+  id: number;
+  name: string;
+  url: string;
+};
+
+type Settings = {
+  environments: Environment[];
+  endpoint: string;
+};

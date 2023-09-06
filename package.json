@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "run:tests": "vitest",
-    "run:coverage": "vitest run --coverage",
+    "run:coverage": "vitest run --silent --coverage",
     "run:lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 && tsc --noEmit",
     "run:pre-build": "yarn run:lint && cross-env CI=true yarn run:tests --silent",
     "build": "yarn run:pre-build && vite build",

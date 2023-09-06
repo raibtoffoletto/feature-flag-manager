@@ -42,6 +42,7 @@ export default function ErrorMessage({
         component="div"
         variant="h5"
         color="text.secondary"
+        align="center"
         {...TypographyProps}
       >
         {message}

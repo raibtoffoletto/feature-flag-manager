@@ -1,6 +1,7 @@
 import Layout from '@components/layout/Layout';
 import { AppRoutes } from '@constants';
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Settings from './Settings';
 
 const Routes: RouteObject[] = [
   {
@@ -9,7 +10,7 @@ const Routes: RouteObject[] = [
     children: [
       {
         path: AppRoutes.settings,
-        element: <div>sett</div>,
+        element: <Settings />,
       },
       {
         index: true,

@@ -1,10 +1,10 @@
 import { renderHook, testData, waitFor } from '@tests';
 import { describe, expect, it } from 'vitest';
-import useUser from './useUser';
+import useSettings from './useSettings';
 
-describe('useUser', () => {
+describe('useSettings', () => {
   it('renders hook', async () => {
-    const { result } = renderHook(() => useUser());
+    const { result } = renderHook(() => useSettings());
 
     expect(result.current.isLoading).toBe(true);
     expect(result.current.error).toBeUndefined();
@@ -12,7 +12,7 @@ describe('useUser', () => {
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
       expect(result.current.error).toBeUndefined();
-      expect(result.current.data).toEqual(testData.user);
+      expect(result.current.data).toEqual(testData.settings);
     });
   });
 });

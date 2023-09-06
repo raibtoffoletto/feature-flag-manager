@@ -1,3 +1,4 @@
+import { SettingsContextProvider } from '@contexts/Settings';
 import { ThemeProvider } from '@contexts/Theme.tsx';
 import { UserContextProvider } from '@contexts/User.tsx';
 import { MemoryRouter } from 'react-router-dom';
@@ -8,7 +9,9 @@ export function TestProvider({ children }: IParent) {
     <MemoryRouter>
       <SWRConfig value={{ provider: () => new Map() }}>
         <ThemeProvider>
-          <UserContextProvider>{children}</UserContextProvider>
+          <UserContextProvider>
+            <SettingsContextProvider>{children}</SettingsContextProvider>
+          </UserContextProvider>
         </ThemeProvider>
       </SWRConfig>
     </MemoryRouter>

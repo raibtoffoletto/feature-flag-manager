@@ -1,4 +1,5 @@
 import Topbar from '@components/layout/Topbar';
+import { SettingsContextProvider } from '@contexts/Settings';
 import { Stack } from '@mui/material';
 import testIds from '@testIds';
 import { Outlet } from 'react-router-dom';
@@ -20,7 +21,9 @@ export default function Layout() {
           flexDirection: 'row',
         }}
       >
-        <Outlet />
+        <SettingsContextProvider>
+          <Outlet />
+        </SettingsContextProvider>
       </Stack>
     </>
   );
