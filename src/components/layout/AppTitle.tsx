@@ -1,5 +1,5 @@
-import { Stack, Typography, Box } from '@mui/material';
 import { CloudSync } from '@mui/icons-material';
+import { Box, Stack, Typography } from '@mui/material';
 import testIds from '@testIds';
 
 function AppText({

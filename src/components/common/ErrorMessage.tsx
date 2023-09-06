@@ -1,8 +1,8 @@
-import type { SxProps, TypographyProps, StackProps } from '@mui/material';
-import type { ActionButtonProps } from './ActionButton';
 import GppMaybeIcon from '@mui/icons-material/GppMaybe';
+import type { StackProps, SxProps, TypographyProps } from '@mui/material';
 import { Stack, Typography } from '@mui/material';
 import testIds from '@testIds';
+import type { ActionButtonProps } from './ActionButton';
 import ActionButton from './ActionButton';
 
 export interface ErrorMessageProps extends Partial<StackProps> {

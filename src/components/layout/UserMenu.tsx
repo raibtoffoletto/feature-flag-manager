@@ -1,6 +1,6 @@
 import { AppRoutes } from '@constants';
 import useUserContext from '@hooks/context/useUserContext';
-import { AccountCircle, BusinessCenter, Settings, Flag } from '@mui/icons-material';
+import { AccountCircle, BusinessCenter, Flag, Settings } from '@mui/icons-material';
 import {
   Button,
   Divider,
