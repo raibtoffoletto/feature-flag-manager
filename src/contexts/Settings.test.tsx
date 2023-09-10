@@ -60,7 +60,9 @@ describe('SettingsContextProvider', () => {
 
     await userEvent.click(screen.getByTestId(testIds.ActionButton));
 
-    expect(screen.getByTestId(childId)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId(childId)).toBeInTheDocument();
+    });
   });
 
   it('renders error when api results in error', async () => {

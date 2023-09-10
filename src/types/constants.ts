@@ -12,3 +12,11 @@ export const AppRoutes = Object.freeze({
   root: '/',
   settings: '/settings',
 });
+
+export const SettingsViewAction = Object.freeze({
+  reset: 'reset',
+  endpoint: 'endpoint',
+  create: 'create',
+  update: 'update',
+  remove: 'remove',
+});

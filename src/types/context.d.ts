@@ -1,13 +1,37 @@
-interface IUserContext {
+type IUserContext = {
   user: User;
   tenant?: Tenant;
   switchTanant: (tenantId?: string) => void;
-}
+};
 
-interface ISettingsContext {
+type ISettingsContext = {
   settings: Settings;
-  updateEndpoint: (url?: string) => void;
-  createEnv: (env?: Omit<Environment, 'id'>) => void;
-  updateEnv: (env?: Environment) => void;
-  removeEnv: (id?: number) => void;
-}
+  updateSettings: (settings?: Settings) => Promise<Settings | undefined>;
+};
+
+type ISettingsViewContext = Settings & {
+  isEditing: boolean;
+  dispatch: React.Dispatch<ISettingsViewAction>;
+};
+
+type ISettingsViewAction =
+  | {
+      type: 'reset';
+      payload: Settings;
+    }
+  | {
+      type: 'endpoint';
+      payload: string;
+    }
+  | {
+      type: 'create';
+      payload: Omit<Environment, 'id'>;
+    }
+  | {
+      type: 'update';
+      payload: Environment;
+    }
+  | {
+      type: 'remove';
+      payload: number;
+    };

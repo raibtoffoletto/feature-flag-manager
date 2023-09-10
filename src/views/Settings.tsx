@@ -1,17 +1,27 @@
-import useSettingsContext from '@hooks/context/useSettingsContext';
-import { Stack, Typography } from '@mui/material';
+import Content from '@components/layout/Content';
+import Edit from '@components/settings/Edit';
+import View from '@components/settings/View';
+import { SettingsViewContextProvider } from '@contexts/SettingsView';
+import useSettingsViewContext from '@hooks/context/useSettingsViewContext';
+import { Typography } from '@mui/material';
 import testIds from '@testIds';
 
+function Contents() {
+  const { isEditing } = useSettingsViewContext();
+
+  return isEditing ? <Edit /> : <View />;
+}
+
 export default function Settings() {
-  const { settings } = useSettingsContext();
-
   return (
-    <Stack sx={{ padding: 2, width: '100%' }} data-testid={testIds.Settings}>
-      <Typography variant="h2" component="h1" align="center">
-        Settings
-      </Typography>
+    <SettingsViewContextProvider>
+      <Content title="Settings" data-testid={testIds.Settings.content}>
+        <Typography variant="h4" component="h2">
+          Environments
+        </Typography>
 
-      <pre>{JSON.stringify(settings, null, 2)}</pre>
-    </Stack>
+        <Contents />
+      </Content>
+    </SettingsViewContextProvider>
   );
 }

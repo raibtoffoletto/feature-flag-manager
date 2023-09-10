@@ -15,6 +15,8 @@ beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 
 afterEach(async () => {
   server.resetHandlers();
+
+  window.localStorage.clear();
 });
 
 afterAll(() => server.close());
