@@ -101,4 +101,20 @@ describe('<Settings />', () => {
       expect(screen.getByTestId(testIds.Settings.content_edit)).toBeInTheDocument();
     });
   });
+
+  it('should show and hide current actions on hover', async () => {
+    await setup();
+
+    expect(screen.queryByText(/edit/i)).not.toBeVisible();
+
+    await openActions();
+
+    expect(screen.queryByText(/edit/i)).toBeVisible();
+
+    await userEvent.unhover(
+      within(screen.getByTestId(testIds.Settings.actions)).getByRole('button'),
+    );
+
+    expect(screen.queryByText(/edit/i)).not.toBeVisible();
+  });
 });

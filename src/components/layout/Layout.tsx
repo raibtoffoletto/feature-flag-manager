@@ -19,6 +19,7 @@ export default function Layout() {
           borderRadius: '8px',
           borderColor: 'grey.300',
           flexDirection: 'row',
+          transform: 'translateZ(0)',
         }}
       >
         <SettingsContextProvider>

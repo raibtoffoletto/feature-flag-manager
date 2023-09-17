@@ -29,8 +29,8 @@ export default function FloatingActions({
       }}
       sx={{
         position: 'fixed',
-        bottom: 32,
-        right: 24,
+        bottom: 16,
+        right: 8,
         ...props?.sx,
       }}
     />
