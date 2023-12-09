@@ -1,6 +1,6 @@
 import { postSettings } from '@api/app';
 import FloatingActions from '@components/common/FloatingActions';
-import { SettingsViewAction } from '@constants';
+import { SettingsViewAction, URLActions } from '@constants';
 import useSettingsContext from '@hooks/context/useSettingsContext';
 import {
   Edit as EditIcon,
@@ -10,7 +10,8 @@ import {
 } from '@mui/icons-material';
 import { SpeedDialAction } from '@mui/material';
 import testIds from '@testIds';
-import { createContext, useReducer, useState } from 'react';
+import { createContext, useMemo, useReducer, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export const SettingsViewContext = createContext<ISettingsViewContext>({
   isEditing: false,
@@ -76,15 +77,28 @@ function stateReducer(state: Settings, { type, payload }: ISettingsViewAction): 
 
 export function SettingsViewContextProvider({ children }: IParent) {
   const { settings, updateSettings } = useSettingsContext();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [{ endpoint, environments }, dispatch] = useReducer(stateReducer, settings);
   const [isLoading, setLoading] = useState(false);
-  const [isEditing, setEditing] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const toggleView = (view: boolean) => {
+  const isEditing = useMemo(
+    () => searchParams.get(URLActions.action) === URLActions.edit,
+    [searchParams],
+  );
+
+  const toggleView = (editView: boolean) => {
     setMenuOpen(false);
 
-    setTimeout(() => setEditing(view), 350);
+    setTimeout(
+      () =>
+        setSearchParams((_params) => {
+          _params.set(URLActions.action, editView ? URLActions.edit : '');
+
+          return _params;
+        }),
+      350,
+    );
   };
 
   const floatingActions = isEditing
@@ -96,14 +110,16 @@ export function SettingsViewContextProvider({ children }: IParent) {
           action: async () => {
             try {
               setMenuOpen(false);
+
               setLoading(true);
+
               const _settings = { endpoint, environments };
 
               await postSettings(_settings);
 
               await updateSettings(_settings);
 
-              setEditing(false);
+              toggleView(false);
             } catch (error: any) {
               console.log('[API Error]: ' + error?.message);
             } finally {
@@ -113,10 +129,11 @@ export function SettingsViewContextProvider({ children }: IParent) {
         },
         {
           id: testIds.Settings.actions_undo,
-          label: 'Undo',
+          label: 'Undo all',
           icon: <UndoIcon />,
           action: () => {
             setMenuOpen(false);
+
             dispatch({
               type: SettingsViewAction.reset,
               payload: settings,
@@ -135,7 +152,14 @@ export function SettingsViewContextProvider({ children }: IParent) {
           id: testIds.Settings.actions_edit,
           label: 'Edit',
           icon: <EditIcon />,
-          action: () => toggleView(true),
+          action: () => {
+            toggleView(true);
+
+            dispatch({
+              type: SettingsViewAction.reset,
+              payload: settings,
+            });
+          },
         },
       ];
 

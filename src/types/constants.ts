@@ -20,3 +20,8 @@ export const SettingsViewAction = Object.freeze({
   update: 'update',
   remove: 'remove',
 });
+
+export const URLActions = Object.freeze({
+  action: 'action',
+  edit: 'edit',
+});

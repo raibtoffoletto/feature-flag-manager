@@ -1,4 +1,5 @@
 import Loading from '@components/common/Loading';
+import { Close as CloseIcon, Settings as SettingsIcon } from '@mui/icons-material';
 import { SpeedDial, SpeedDialIcon, SpeedDialProps } from '@mui/material';
 
 export default function FloatingActions({
@@ -13,7 +14,7 @@ export default function FloatingActions({
         loading ? (
           <Loading CircularProgressProps={{ color: 'inherit', size: 32, thickness: 6 }} />
         ) : (
-          <SpeedDialIcon />
+          <SpeedDialIcon icon={<SettingsIcon />} openIcon={<CloseIcon />} />
         )
       }
       FabProps={{
@@ -32,6 +33,10 @@ export default function FloatingActions({
         bottom: 16,
         right: 8,
         ...props?.sx,
+
+        '& .MuiSpeedDialAction-staticTooltipLabel': {
+          whiteSpace: 'nowrap',
+        },
       }}
     />
   );

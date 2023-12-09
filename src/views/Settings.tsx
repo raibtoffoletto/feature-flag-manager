@@ -16,7 +16,7 @@ export default function Settings() {
   return (
     <SettingsViewContextProvider>
       <Content title="Settings" data-testid={testIds.Settings.content}>
-        <Typography variant="h4" component="h2">
+        <Typography variant="h4" component="h2" mb={3}>
           Environments
         </Typography>
 

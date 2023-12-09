@@ -74,7 +74,36 @@ describe('<Settings />', () => {
     });
   });
 
-  it('should NOT change page on undo action or save action', async () => {
+  it('should change reset state entering edit', async () => {
+    const newValue = '-some-new-value';
+
+    await setup();
+
+    await openEdit();
+
+    const firstInput = screen.queryAllByRole('textbox')[0];
+    expect(firstInput).toBeInTheDocument();
+
+    await userEvent.type(firstInput, newValue);
+
+    expect(firstInput.getAttribute('value')).toMatch(new RegExp(newValue));
+
+    await openActions();
+
+    await userEvent.click(screen.getByTestId(testIds.Settings.actions_exit));
+
+    await waitFor(() => {
+      expect(screen.getByTestId(testIds.Settings.content_view)).toBeInTheDocument();
+    });
+
+    await openEdit();
+
+    expect(screen.queryAllByRole('textbox')[0].getAttribute('value')).not.toMatch(
+      new RegExp(newValue),
+    );
+  });
+
+  it('should NOT change page on undo action', async () => {
     await setup();
 
     await openEdit();
@@ -87,8 +116,15 @@ describe('<Settings />', () => {
     await userEvent.click(undo);
 
     await waitFor(() => {
+      expect(screen.queryByTestId(testIds.Settings.content_view)).not.toBeInTheDocument();
       expect(screen.getByTestId(testIds.Settings.content_edit)).toBeInTheDocument();
     });
+  });
+
+  it('should change page on save action', async () => {
+    await setup();
+
+    await openEdit();
 
     await openActions();
 
@@ -98,7 +134,8 @@ describe('<Settings />', () => {
     await userEvent.click(save);
 
     await waitFor(() => {
-      expect(screen.getByTestId(testIds.Settings.content_edit)).toBeInTheDocument();
+      expect(screen.queryByTestId(testIds.Settings.content_edit)).not.toBeInTheDocument();
+      expect(screen.getByTestId(testIds.Settings.content_view)).toBeInTheDocument();
     });
   });
 

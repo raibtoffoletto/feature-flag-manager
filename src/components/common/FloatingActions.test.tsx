@@ -10,7 +10,7 @@ describe('', () => {
     render(<FloatingActions data-testid={id} />);
 
     expect(screen.getByTestId(id)).toBeInTheDocument();
-    expect(screen.getByTestId('AddIcon')).toBeInTheDocument();
+    expect(screen.getByTestId('SettingsIcon')).toBeInTheDocument();
   });
 
   it('renders component with loading icon', () => {

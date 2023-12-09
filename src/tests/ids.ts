@@ -9,6 +9,7 @@ export default {
     content: 'Settings-content',
     content_view: 'Settings-content-view',
     content_edit: 'Settings-content-edit',
+    content_item: 'Settings-content-item',
     actions: 'Settings-actions',
     actions_save: 'Settings-action-save',
     actions_undo: 'Settings-action-undo',
