@@ -1,13 +1,11 @@
 import GppMaybeIcon from '@mui/icons-material/GppMaybe';
-import type { StackProps, SxProps, TypographyProps } from '@mui/material';
-import { Stack, Typography } from '@mui/material';
+import type { ButtonProps, StackProps, SxProps, TypographyProps } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import testIds from '@testIds';
-import type { ActionButtonProps } from './ActionButton';
-import ActionButton from './ActionButton';
 
 export interface ErrorMessageProps extends Partial<StackProps> {
   message: string;
-  action?: ActionButtonProps;
+  action?: ButtonProps & { label?: string };
   IconProps?: SxProps;
   TypographyProps?: Partial<Omit<TypographyProps, 'children'>>;
 }
@@ -19,6 +17,8 @@ export default function ErrorMessage({
   TypographyProps,
   ...props
 }: ErrorMessageProps) {
+  const { label: actionLabel, ...actionProps } = action ?? {};
+
   return (
     <Stack
       alignItems="center"
@@ -48,8 +48,15 @@ export default function ErrorMessage({
         {message}
       </Typography>
 
-      {!!action?.label && (
-        <ActionButton variant="contained" color="secondary" {...action} />
+      {!!actionLabel && (
+        <Button
+          variant="contained"
+          color="secondary"
+          {...actionProps}
+          data-testid={testIds.ActionButton}
+        >
+          {actionLabel}
+        </Button>
       )}
     </Stack>
   );

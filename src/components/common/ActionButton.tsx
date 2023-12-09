@@ -1,15 +1,39 @@
 import type { ButtonProps } from '@mui/material';
-import { Button } from '@mui/material';
+import { Button, Hidden, IconButton, Tooltip } from '@mui/material';
 import testIds from '@testIds';
 
-export interface ActionButtonProps extends Partial<Omit<ButtonProps, 'children'>> {
+export type ActionButtonProps = Pick<ButtonProps, 'color' | 'onClick'> & {
   label: string;
-}
+  icon: React.ReactNode;
+};
 
-export default function ActionButton({ label, ...props }: ActionButtonProps) {
+export default function ActionButton({ label, icon, color, onClick }: ActionButtonProps) {
   return (
-    <Button {...props} data-testid={testIds.ActionButton}>
-      {label}
-    </Button>
+    <>
+      <Hidden smUp initialWidth="xs">
+        <Button
+          onClick={onClick}
+          color={color}
+          variant="contained"
+          endIcon={icon}
+          data-testid={testIds.ActionButton}
+        >
+          {label}
+        </Button>
+      </Hidden>
+
+      <Hidden smDown>
+        <Tooltip title={label}>
+          <IconButton
+            onClick={onClick}
+            color={color}
+            aria-label={label}
+            data-testid={testIds.ActionButton}
+          >
+            {icon}
+          </IconButton>
+        </Tooltip>
+      </Hidden>
+    </>
   );
 }
