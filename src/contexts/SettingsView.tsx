@@ -2,6 +2,8 @@ import { postSettings } from '@api/app';
 import FloatingActions from '@components/common/FloatingActions';
 import { SettingsViewAction, URLActions } from '@constants';
 import useSettingsContext from '@hooks/context/useSettingsContext';
+import validateName from '@lib/validateName';
+import validateURL from '@lib/validateURL';
 import {
   Edit as EditIcon,
   Logout as ExitIcon,
@@ -75,6 +77,13 @@ function stateReducer(state: Settings, { type, payload }: ISettingsViewAction): 
   }
 }
 
+function canSave({ endpoint, environments }: Settings): boolean {
+  return (
+    !!endpoint &&
+    environments.flatMap((x) => [validateName(x.name), validateURL(x.url)]).every(Boolean)
+  );
+}
+
 export function SettingsViewContextProvider({ children }: IParent) {
   const { settings, updateSettings } = useSettingsContext();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -85,6 +94,11 @@ export function SettingsViewContextProvider({ children }: IParent) {
   const isEditing = useMemo(
     () => searchParams.get(URLActions.action) === URLActions.edit,
     [searchParams],
+  );
+
+  const isSaveDisabled = useMemo(
+    () => !canSave({ endpoint, environments }),
+    [endpoint, environments],
   );
 
   const toggleView = (editView: boolean) => {
@@ -107,6 +121,7 @@ export function SettingsViewContextProvider({ children }: IParent) {
           id: testIds.Settings.actions_save,
           label: 'Save',
           icon: <SaveIcon />,
+          disabled: isSaveDisabled,
           action: async () => {
             try {
               setMenuOpen(false);
@@ -181,7 +196,10 @@ export function SettingsViewContextProvider({ children }: IParent) {
             data-testid={fa.id}
             tooltipTitle={fa.label}
             icon={fa.icon}
-            onClick={fa.action}
+            FabProps={{
+              onClick: fa.action,
+              disabled: fa?.disabled,
+            }}
           />
         ))}
       </FloatingActions>

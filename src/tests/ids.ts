@@ -15,6 +15,9 @@ export default {
     actions_undo: 'Settings-action-undo',
     actions_exit: 'Settings-action-exit',
     actions_edit: 'Settings-action-edit',
+    edit_name: 'Settings-edit-name',
+    edit_url: 'Settings-edit-url',
+    edit_submit: 'Settings-edit-submit',
   },
   Topbar: 'Topbar',
   UserMenu: {

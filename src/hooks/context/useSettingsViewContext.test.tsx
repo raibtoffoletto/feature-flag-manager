@@ -57,7 +57,9 @@ describe('useSettingsViewContext.test', () => {
       within(screen.getByTestId(testIds.Settings.actions)).getByRole('button'),
     );
 
-    await userEvent.click(screen.getByTestId(testIds.Settings.actions_edit));
+    await userEvent.click(
+      within(screen.getByTestId(testIds.Settings.actions_edit)).getByRole('menuitem'),
+    );
 
     await waitFor(() => {
       expect(result.current.isEditing).toBeTruthy();
@@ -209,6 +211,10 @@ describe('useSettingsViewContext.test', () => {
 
     const result = await setupSave();
 
+    await userEvent.click(
+      within(screen.getByTestId(testIds.Settings.actions_save)).getByRole('menuitem'),
+    );
+
     await waitFor(() => {
       expect(screen.getByTestId(testIds.Loading)).toBeInTheDocument();
     });
@@ -227,9 +233,12 @@ describe('useSettingsViewContext.test', () => {
 
     server.use(rest.post(API.settings, (_, res, ctx) => res(ctx.status(500))));
 
-    const result = await setupSave();
+    await setupSave();
 
-    expect(result.current.isEditing).toBeTruthy();
+    await userEvent.click(
+      within(screen.getByTestId(testIds.Settings.actions_save)).getByRole('menuitem'),
+    );
+
     expect(consoleSpy).toBeCalledTimes(1);
   });
 });

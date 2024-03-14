@@ -24,7 +24,9 @@ describe('<Settings />', () => {
   async function openEdit() {
     await openActions();
 
-    await userEvent.click(screen.getByTestId(testIds.Settings.actions_edit));
+    await userEvent.click(
+      within(screen.getByTestId(testIds.Settings.actions_edit)).getByRole('menuitem'),
+    );
 
     await waitFor(() => {
       expect(screen.getByTestId(testIds.Settings.content_edit)).toBeInTheDocument();
@@ -46,9 +48,9 @@ describe('<Settings />', () => {
     await openActions();
 
     const edit = screen.getByTestId(testIds.Settings.actions_edit);
-    expect(edit).toBeInTheDocument();
 
-    await userEvent.click(edit);
+    expect(edit).toBeInTheDocument();
+    await userEvent.click(within(edit).getByRole('menuitem'));
 
     await waitFor(() => {
       expect(screen.queryByTestId(testIds.Settings.actions_edit)).not.toBeInTheDocument();
@@ -64,9 +66,9 @@ describe('<Settings />', () => {
     await openActions();
 
     const exit = screen.getByTestId(testIds.Settings.actions_exit);
-    expect(exit).toBeInTheDocument();
 
-    await userEvent.click(exit);
+    expect(exit).toBeInTheDocument();
+    await userEvent.click(within(exit).getByRole('menuitem'));
 
     await waitFor(() => {
       expect(screen.queryByTestId(testIds.Settings.actions_exit)).not.toBeInTheDocument();
@@ -90,7 +92,9 @@ describe('<Settings />', () => {
 
     await openActions();
 
-    await userEvent.click(screen.getByTestId(testIds.Settings.actions_exit));
+    await userEvent.click(
+      within(screen.getByTestId(testIds.Settings.actions_exit)).getByRole('menuitem'),
+    );
 
     await waitFor(() => {
       expect(screen.getByTestId(testIds.Settings.content_view)).toBeInTheDocument();
@@ -111,9 +115,9 @@ describe('<Settings />', () => {
     await openActions();
 
     const undo = screen.getByTestId(testIds.Settings.actions_undo);
-    expect(undo).toBeInTheDocument();
 
-    await userEvent.click(undo);
+    expect(undo).toBeInTheDocument();
+    await userEvent.click(within(undo).getByRole('menuitem'));
 
     await waitFor(() => {
       expect(screen.queryByTestId(testIds.Settings.content_view)).not.toBeInTheDocument();
@@ -129,9 +133,9 @@ describe('<Settings />', () => {
     await openActions();
 
     const save = screen.getByTestId(testIds.Settings.actions_save);
-    expect(save).toBeInTheDocument();
 
-    await userEvent.click(save);
+    expect(save).toBeInTheDocument();
+    await userEvent.click(within(save).getByRole('menuitem'));
 
     await waitFor(() => {
       expect(screen.queryByTestId(testIds.Settings.content_edit)).not.toBeInTheDocument();

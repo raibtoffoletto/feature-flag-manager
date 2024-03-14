@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "run:tests": "vitest",
-    "run:coverage": "vitest run --silent --coverage",
+    "run:tests": "vitest --silent=false",
+    "run:coverage": "vitest run --watch=false --silent --coverage",
     "run:lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 && tsc --noEmit",
     "run:pre-build": "yarn run:lint && cross-env CI=true yarn run:tests --silent",
     "build": "yarn run:pre-build && vite build",
