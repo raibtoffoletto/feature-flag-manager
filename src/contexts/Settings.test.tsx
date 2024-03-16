@@ -1,7 +1,7 @@
 import { API } from '@constants';
 import testIds from '@testIds';
 import { render, screen, server, userEvent, waitFor } from '@tests';
-import { rest } from 'msw';
+import { http } from 'msw';
 import { SWRConfig } from 'swr';
 import { describe, expect, it } from 'vitest';
 import { SettingsContextProvider } from './Settings';
@@ -33,10 +33,8 @@ describe('SettingsContextProvider', () => {
     });
   });
 
-  it('renders error when there is no settings', async () => {
-    server.use(
-      rest.get(API.settings, (_, res, ctx) => res(ctx.status(200), ctx.body(''))),
-    );
+  it('renders error when there are no settings', async () => {
+    server.use(http.get(API.settings, () => new Response('', { status: 200 })));
 
     setup();
 
@@ -46,9 +44,7 @@ describe('SettingsContextProvider', () => {
   });
 
   it('reload page when using error button', async () => {
-    server.use(
-      rest.get(API.settings, (_, res, ctx) => res(ctx.status(200), ctx.body(''))),
-    );
+    server.use(http.get(API.settings, () => new Response('', { status: 200 })));
 
     setup();
 
@@ -66,7 +62,7 @@ describe('SettingsContextProvider', () => {
   });
 
   it('renders error when api results in error', async () => {
-    server.use(rest.get(API.settings, (_, res, ctx) => res(ctx.status(403))));
+    server.use(http.get(API.settings, () => new Response(undefined, { status: 403 })));
 
     setup();
 

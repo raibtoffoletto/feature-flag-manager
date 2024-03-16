@@ -1,12 +1,13 @@
 import { API } from '@constants';
-import { rest } from 'msw';
+import { http } from 'msw';
 import { user as userData } from '../data/user';
+import toJson from '../toJson';
 import wait from '../wait';
 
 export const user = [
-  rest.get(API.whoami, async (_, res, ctx) => {
+  http.get(API.whoami, async () => {
     await wait();
 
-    return res(ctx.status(200), ctx.json(userData));
+    return toJson(userData);
   }),
 ];

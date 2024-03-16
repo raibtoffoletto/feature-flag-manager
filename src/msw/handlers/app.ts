@@ -1,26 +1,26 @@
 import { API, LocalStorageKey } from '@constants';
 import { getStorageItem, setStorageItem } from '@lib/localStorage';
-import { rest } from 'msw';
+import { http } from 'msw';
 import { settings } from '../data/app';
+import toJson from '../toJson';
 import wait from '../wait';
 
+const success = () => new Response(undefined, { status: 200 });
+
 export const app = [
-  rest.get(API.settings, async (_, res, ctx) => {
+  http.get(API.settings, async () => {
     await wait();
 
-    return res(
-      ctx.status(200),
-      ctx.json(getStorageItem(LocalStorageKey.settings, settings)),
-    );
+    return toJson(getStorageItem(LocalStorageKey.settings, settings));
   }),
 
-  rest.post(API.settings, async (req, res, ctx) => {
+  http.post(API.settings, async ({ request }) => {
     await wait(2000);
 
-    const _settings: Settings = await req.json();
+    const _settings = (await request.json()) as Settings;
 
     setStorageItem(LocalStorageKey.settings, _settings);
 
-    return res(ctx.status(200));
+    return success();
   }),
 ];

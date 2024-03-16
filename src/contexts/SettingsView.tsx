@@ -107,7 +107,13 @@ export function SettingsViewContextProvider({ children }: IParent) {
     setTimeout(
       () =>
         setSearchParams((_params) => {
-          _params.set(URLActions.action, editView ? URLActions.edit : '');
+          if (editView) {
+            _params.set(URLActions.action, URLActions.edit);
+
+            return _params;
+          }
+
+          _params.delete(URLActions.action);
 
           return _params;
         }),

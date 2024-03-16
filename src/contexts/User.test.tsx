@@ -1,7 +1,7 @@
 import { API } from '@constants';
 import testIds from '@testIds';
 import { render, screen, server, userEvent, waitFor } from '@tests';
-import { rest } from 'msw';
+import { http } from 'msw';
 import { SWRConfig } from 'swr';
 import { describe, expect, it, vi } from 'vitest';
 import { UserContextProvider } from './User';
@@ -34,7 +34,7 @@ describe('UserContextProvider', () => {
   });
 
   it('renders error when there is no user', async () => {
-    server.use(rest.get(API.whoami, (_, res, ctx) => res(ctx.status(200), ctx.body(''))));
+    server.use(http.get(API.whoami, () => new Response('', { status: 200 })));
 
     setup();
 
@@ -53,7 +53,7 @@ describe('UserContextProvider', () => {
       },
     });
 
-    server.use(rest.get(API.whoami, (_, res, ctx) => res(ctx.status(200), ctx.body(''))));
+    server.use(http.get(API.whoami, () => new Response('', { status: 200 })));
 
     setup();
 
@@ -69,7 +69,7 @@ describe('UserContextProvider', () => {
   });
 
   it('renders error when api results in error', async () => {
-    server.use(rest.get(API.whoami, (_, res, ctx) => res(ctx.status(403))));
+    server.use(http.get(API.whoami, () => new Response(undefined, { status: 403 })));
 
     setup();
 

@@ -13,7 +13,7 @@ import {
   waitFor,
   within,
 } from '@tests';
-import { rest } from 'msw';
+import { http } from 'msw';
 import { SWRConfig } from 'swr';
 import { describe, expect, it, vi } from 'vitest';
 import useSettingsViewContext from './useSettingsViewContext';
@@ -231,7 +231,7 @@ describe('useSettingsViewContext.test', () => {
   it('should log error on api failure', async () => {
     const consoleSpy = vi.spyOn(console, 'log');
 
-    server.use(rest.post(API.settings, (_, res, ctx) => res(ctx.status(500))));
+    server.use(http.post(API.settings, () => new Response(undefined, { status: 500 })));
 
     await setupSave();
 
