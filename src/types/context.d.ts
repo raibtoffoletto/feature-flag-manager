@@ -35,3 +35,12 @@ type ISettingsViewAction =
       type: 'remove';
       payload: number;
     };
+
+type IFlagsContext = {
+  isLoading: boolean;
+  flags: Flag[];
+  selectedFlag?: Flag;
+  selected?: string;
+  setSelected: React.Dispatch<React.SetStateAction<string | undefined>>;
+  refetchFlags: () => Promise<void | Flag[] | undefined>;
+};

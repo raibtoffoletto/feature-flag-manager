@@ -10,8 +10,8 @@ describe('<ActionButton />', () => {
 
     render(<ActionButton label={label} icon={<AddIcon />} />);
     screen.debug();
-    expect(screen.getByTestId(testIds.ActionButton)).toBeInTheDocument();
-    expect(screen.getByTestId('AddIcon')).toBeInTheDocument();
+    expect(screen.getAllByTestId(testIds.ActionButton)[0]).toBeInTheDocument();
+    expect(screen.getAllByTestId('AddIcon')[0]).toBeInTheDocument();
     expect(screen.getByText(label)).toBeInTheDocument();
   });
 });

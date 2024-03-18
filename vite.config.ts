@@ -75,7 +75,14 @@ const config: VitestConfigExport = {
 
     coverage: {
       provider: 'istanbul',
-      exclude: ['**/src/api/**', '**/src/msw/**', '**/src/tests/**', '**/src/types/**'],
+      exclude: [
+        '**/public/**',
+        '**/src/main.tsx',
+        '**/src/views/Router.tsx',
+        '**/src/msw/**',
+        '**/src/tests/**',
+        '**/src/types/**',
+      ],
     },
   },
 };

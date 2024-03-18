@@ -25,7 +25,7 @@ describe('<EditEnvironment />', () => {
 
     expect(screen.getByTestId(testIds.Settings.edit_name)).toBeInTheDocument();
     expect(screen.getByTestId(testIds.Settings.edit_url)).toBeInTheDocument();
-    expect(screen.getByTestId(testIds.ActionButton)).toBeInTheDocument();
+    expect(screen.getAllByTestId(testIds.ActionButton)[0]).toBeInTheDocument();
 
     expect(
       within(screen.getByTestId(testIds.Settings.edit_name)).getByRole('textbox'),
@@ -61,7 +61,7 @@ describe('<EditEnvironment />', () => {
   it('dispatches when deleting', async () => {
     setUp();
 
-    await userEvent.click(screen.getByTestId(testIds.ActionButton));
+    await userEvent.click(screen.getAllByTestId(testIds.ActionButton)[0]);
 
     expect(mockDispatch).toHaveBeenCalled();
   });

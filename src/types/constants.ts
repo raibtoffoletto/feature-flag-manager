@@ -1,11 +1,13 @@
 export const API = Object.freeze({
   whoami: '/api/whoami',
   settings: '/api/settings',
+  flags: '/api/flags',
 });
 
 export const LocalStorageKey = Object.freeze({
   tenantId: 'TenantId',
   settings: 'data-settings',
+  flags: 'data-flags',
 });
 
 export const AppRoutes = Object.freeze({
@@ -24,4 +26,10 @@ export const SettingsViewAction = Object.freeze({
 export const URLActions = Object.freeze({
   action: 'action',
   edit: 'edit',
+  add: 'add',
+});
+
+export const ValueType = Object.freeze({
+  string: 'string',
+  boolean: 'boolean',
 });

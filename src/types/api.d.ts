@@ -18,3 +18,9 @@ type Settings = {
   environments: Environment[];
   endpoint: string;
 };
+
+type Flag = {
+  key: string;
+  valueType: 'string' | 'boolean';
+  validation?: string;
+};

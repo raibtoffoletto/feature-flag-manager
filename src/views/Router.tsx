@@ -1,6 +1,7 @@
 import Layout from '@components/layout/Layout';
 import { AppRoutes } from '@constants';
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Flags from './Flags';
 import Settings from './Settings';
 
 const Routes: RouteObject[] = [
@@ -14,7 +15,7 @@ const Routes: RouteObject[] = [
       },
       {
         index: true,
-        element: <div>home</div>,
+        element: <Flags />,
       },
     ],
   },

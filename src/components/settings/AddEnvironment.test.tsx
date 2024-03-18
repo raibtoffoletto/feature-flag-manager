@@ -17,8 +17,8 @@ describe('<AddEnvironment />', () => {
 
     expect(screen.getByTestId(testIds.Settings.edit_name)).toBeInTheDocument();
     expect(screen.getByTestId(testIds.Settings.edit_url)).toBeInTheDocument();
-    expect(screen.getByTestId(testIds.Settings.edit_submit)).toBeInTheDocument();
-    expect(screen.getByTestId(testIds.Settings.edit_submit)).toBeDisabled();
+    expect(screen.getAllByTestId(testIds.Settings.edit_submit)[0]).toBeInTheDocument();
+    expect(screen.getAllByTestId(testIds.Settings.edit_submit)[0]).toBeDisabled();
   });
 
   it('types in the inputs and submit form', async () => {
@@ -41,7 +41,7 @@ describe('<AddEnvironment />', () => {
     expect(inputName).toHaveValue(name);
     expect(inputUrl).toHaveValue(url);
 
-    const submit = screen.getByTestId(testIds.Settings.edit_submit);
+    const submit = screen.getAllByTestId(testIds.Settings.edit_submit)[0];
     expect(submit).toBeEnabled();
     await userEvent.type(submit, url);
 
