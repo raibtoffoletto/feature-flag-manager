@@ -1,14 +1,26 @@
 {
   "name": "feature-flag-manager",
-  "private": true,
+  "description": "Feature Flag Manager ~ POC for a multi tenant and multi environment key/value flags manager",
+  "homepage": "https://feature-flag-manager-olive.vercel.app",
+  "license": "GPL-3.0",
+  "private": false,
   "version": "1.0.0",
   "type": "module",
+  "author": {
+    "name": "Raí B. Toffoletto",
+    "email": "rai@toffoletto.me",
+    "url": "https://toffoletto.me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raibtoffoletto/feature-flag-manager"
+  },
   "scripts": {
     "dev": "vite",
     "run:tests": "vitest --silent=false",
     "run:coverage": "vitest run --watch=false --silent --coverage",
     "run:lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 && tsc --noEmit",
-    "run:pre-build": "yarn run:lint && cross-env CI=true yarn run:tests --silent",
+    "run:pre-build": "yarn run:lint && cross-env CI=true yarn run:coverage",
     "build": "yarn run:pre-build && vite build",
     "preview": "vite preview"
   },

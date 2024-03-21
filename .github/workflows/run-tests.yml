@@ -1,0 +1,24 @@
+name: All Tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['main']
+
+  pull_request:
+    branches: ['main']
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+
+      - name: Install
+        run: yarn
+
+      - name: Run tests and coverage
+        run: yarn run:coverage
