@@ -1,16 +1,11 @@
 import useFlagsContext from '@hooks/context/useFlagsContext';
-import {
-  Clear as ClearIcon,
-  Edit as EditIcon,
-  Search as SearchIcon,
-} from '@mui/icons-material';
+import { Clear as ClearIcon, Search as SearchIcon } from '@mui/icons-material';
 import {
   Autocomplete,
   Box,
   IconButton,
   List,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   Skeleton,
   TextField,
@@ -67,10 +62,6 @@ function FlagItem({ label, isSelected, onClick }: FlagItemProps) {
       onClick={() => onClick(isSelected ? undefined : label)}
     >
       <ListItemText primary={label} />
-
-      <ListItemIcon sx={{ minWidth: 24 }}>
-        {isSelected && <EditIcon sx={{ color: 'grey.600', width: 20, height: 20 }} />}
-      </ListItemIcon>
     </ListItemButton>
   );
 }

@@ -1,3 +1,4 @@
+import { FlagViewContextProvider } from '@contexts/FlagView';
 import useFlagsContext from '@hooks/context/useFlagsContext';
 import { Divider, Fade, Stack } from '@mui/material';
 import testIds from '@testIds';
@@ -29,8 +30,8 @@ export default function Panes() {
   return (
     <Fade appear in>
       <Stack
+        gap={1}
         direction={{ xs: 'column', sm: 'row' }}
-        spacing={1}
         sx={{ flexGrow: 1 }}
         data-testid={testIds.Flags.panes}
       >
@@ -40,7 +41,9 @@ export default function Panes() {
 
         <Stack direction="row" sx={{ flexGrow: 1 }}>
           {!!selectedFlag ? (
-            <EditFlag key={selectedFlag.key} flag={selectedFlag} />
+            <FlagViewContextProvider key={selectedFlag.key} flag={selectedFlag}>
+              <EditFlag key={selectedFlag.key} />
+            </FlagViewContextProvider>
           ) : (
             <AddFlag />
           )}

@@ -6,7 +6,7 @@ import FlagList from './FlagList';
 
 describe('<FlagList />', () => {
   async function setup() {
-    render(
+    const utils = render(
       <TestProvider>
         <FlagsContextProvider>
           <FlagList />
@@ -23,6 +23,8 @@ describe('<FlagList />', () => {
         screen.queryByTestId(testIds.Flags.content_list_placeholder),
       ).not.toBeInTheDocument();
     });
+
+    return utils;
   }
 
   it('renders list with search', async () => {
@@ -32,9 +34,9 @@ describe('<FlagList />', () => {
   });
 
   it('should select and unselect by using button and keyboard', async () => {
-    await setup();
+    const { container } = await setup();
 
-    expect(screen.queryByTestId('EditIcon')).not.toBeInTheDocument();
+    expect(container.querySelectorAll('.Mui-selected').length).toBe(0);
 
     const button = within(screen.getByTestId(testIds.Flags.content_list)).getAllByRole(
       'button',
@@ -42,11 +44,11 @@ describe('<FlagList />', () => {
 
     await userEvent.click(button);
 
-    expect(screen.getByTestId('EditIcon')).toBeInTheDocument();
+    expect(container.querySelectorAll('.Mui-selected').length).toBe(1);
 
     await userEvent.click(button);
 
-    expect(screen.queryByTestId('EditIcon')).not.toBeInTheDocument();
+    expect(container.querySelectorAll('.Mui-selected').length).toBe(0);
 
     await userEvent.click(button);
 
@@ -54,7 +56,7 @@ describe('<FlagList />', () => {
 
     await userEvent.keyboard('{Escape}');
 
-    expect(screen.queryByTestId('EditIcon')).not.toBeInTheDocument();
+    expect(container.querySelectorAll('.Mui-selected').length).toBe(0);
   });
 
   it('should filter by using the search button', async () => {

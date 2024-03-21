@@ -92,7 +92,7 @@ export default function FlagModal({ flag }: FlagModalProps) {
         loading={loading}
         data-testid={testIds.Flags.modal_button_confirm_delete}
         onClick={handleDelete}
-        endIcon={<DeleteForeverIcon />}
+        startIcon={<DeleteForeverIcon />}
       >
         Delete Forever
       </LoadingButton>
@@ -166,7 +166,7 @@ export default function FlagModal({ flag }: FlagModalProps) {
         disabled={!key || isNameInUse}
         data-testid={testIds.Flags.modal_button_save}
         onClick={handleSave}
-        endIcon={!!flag ? <SaveIcon /> : <AddCircleIcon />}
+        startIcon={!!flag ? <SaveIcon /> : <AddCircleIcon />}
         sx={{ mt: 0, flexGrow: 1 }}
       >
         {!!flag ? 'Save' : 'Add'}
@@ -179,7 +179,7 @@ export default function FlagModal({ flag }: FlagModalProps) {
           disabled={loading}
           data-testid={testIds.Flags.modal_button_delete}
           onClick={() => setDeleting(true)}
-          endIcon={<DeleteIcon />}
+          startIcon={<DeleteIcon />}
           sx={{ mt: 0, flexGrow: 1 }}
         >
           Remove
@@ -207,7 +207,7 @@ export default function FlagModal({ flag }: FlagModalProps) {
         },
       }}
     >
-      <Card sx={{ p: 2 }} data-testid={testIds.Flags.modal}>
+      <Card sx={{ p: 2, pt: 3 }} data-testid={testIds.Flags.modal}>
         {isDeleting ? confirm : form}
       </Card>
     </Modal>

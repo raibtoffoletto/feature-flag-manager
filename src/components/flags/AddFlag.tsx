@@ -9,7 +9,7 @@ export default function AddFlag() {
   return (
     <Fade appear in>
       <Stack
-        spacing={2}
+        gap={2}
         data-testid={testIds.Flags.pane_add}
         style={{
           flexGrow: 1,

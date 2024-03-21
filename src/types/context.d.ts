@@ -44,3 +44,10 @@ type IFlagsContext = {
   setSelected: React.Dispatch<React.SetStateAction<string | undefined>>;
   refetchFlags: () => Promise<void | Flag[] | undefined>;
 };
+
+type IFlagViewContext = Flag & {
+  isLoading: boolean;
+  environments: EnvironmentFlag[];
+  saveFlag: (envUrl: string, value?: string) => Promise<void>;
+  removeFlag: (envUrl: string) => Promise<void>;
+};

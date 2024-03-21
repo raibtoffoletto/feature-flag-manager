@@ -10,8 +10,11 @@ const initialContext: IFlagsContext = {
 
 export const FlagsContext = createContext<IFlagsContext>(initialContext);
 
-export function FlagsContextProvider({ children }: IParent) {
-  const [selected, setSelected] = useState<string>();
+export function FlagsContextProvider({
+  children,
+  initialSelection,
+}: IParent & { initialSelection?: string }) {
+  const [selected, setSelected] = useState<string | undefined>(initialSelection);
 
   const { data, isLoading, mutate } = useFlags();
 

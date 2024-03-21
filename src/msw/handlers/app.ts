@@ -3,9 +3,8 @@ import { getStorageItem, setStorageItem } from '@lib/localStorage';
 import { http } from 'msw';
 import { flags, settings } from '../data/app';
 import toJson from '../toJson';
+import toStatus from '../toStatus';
 import wait from '../wait';
-
-const success = () => new Response(undefined, { status: 200 });
 
 export const app = [
   http.get(API.settings, async () => {
@@ -21,7 +20,7 @@ export const app = [
 
     setStorageItem(LocalStorageKey.settings, _settings);
 
-    return success();
+    return toStatus();
   }),
 
   http.get(API.flags, async () => {
@@ -46,7 +45,7 @@ export const app = [
 
     setStorageItem(LocalStorageKey.flags, _flags);
 
-    return success();
+    return toStatus();
   }),
 
   http.delete(`${API.flags}/:key`, async ({ params }) => {
@@ -59,6 +58,6 @@ export const app = [
       _flags.filter((x) => x.key !== params.key),
     );
 
-    return success();
+    return toStatus();
   }),
 ];

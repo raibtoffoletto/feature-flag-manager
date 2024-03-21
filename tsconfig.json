@@ -29,9 +29,11 @@
       "@contexts/*": ["src/contexts/*"],
       "@hooks/*": ["src/hooks/*"],
       "@lib/*": ["src/lib/*"],
+      "@msw-handler": ["src/msw/handleEnvironment"],
       "@msw": ["src/msw"],
-      "@tests": ["src/tests"],
+      "@test-data": ["src/msw/data/index.ts"],
       "@testIds": ["src/tests/ids"],
+      "@tests": ["src/tests"],
       "@views/*": ["src/views/*"]
     },
 

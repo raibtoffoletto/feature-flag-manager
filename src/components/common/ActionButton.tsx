@@ -5,17 +5,27 @@ import testIds from '@testIds';
 export type ActionButtonProps = ButtonProps & {
   label: string;
   icon: React.ReactNode;
+  expand?: boolean;
 };
 
-export default function ActionButton({ label, icon, ...props }: ActionButtonProps) {
+export default function ActionButton({
+  label,
+  icon,
+  expand,
+  ...props
+}: ActionButtonProps) {
   return (
     <>
       <Button
         data-testid={testIds.ActionButton}
-        {...props}
         variant="contained"
-        endIcon={icon}
-        sx={{ display: { xs: 'flex', sm: 'none' }, ...props?.sx }}
+        {...props}
+        startIcon={icon}
+        sx={{
+          width: expand ? '100%' : 'auto',
+          display: { xs: 'flex', sm: 'none' },
+          ...props?.sx,
+        }}
       >
         {label}
       </Button>

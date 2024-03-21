@@ -24,3 +24,8 @@ type Flag = {
   valueType: 'string' | 'boolean';
   validation?: string;
 };
+
+type FlagValue = {
+  key: string;
+  value: string;
+};

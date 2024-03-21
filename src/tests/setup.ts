@@ -1,7 +1,7 @@
 import { configure as configureDom } from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import { configure as configureReact } from '@testing-library/react';
-import { afterAll, afterEach, beforeAll } from 'vitest';
+import { afterAll, afterEach, beforeAll, vi } from 'vitest';
 import server from './server';
 
 // speeds up *ByRole queries a bit
@@ -20,3 +20,7 @@ afterEach(async () => {
 });
 
 afterAll(() => server.close());
+
+vi.mock('@msw', () => ({
+  default: server,
+}));

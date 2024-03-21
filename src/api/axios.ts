@@ -1,5 +1,3 @@
-import { LocalStorageKey } from '@constants';
-import { getTenantId } from '@lib/getTenantId';
 import type { AxiosError, AxiosRequestHeaders, AxiosResponse } from 'axios';
 import axiosLib from 'axios';
 
@@ -9,9 +7,9 @@ const axios = axiosLib.create({
 
 axios.interceptors.request.use((config) => {
   config.headers = {
-    [LocalStorageKey.tenantId]: getTenantId() ?? '',
+    ...config.headers,
     'Content-Type': 'application/json; charset=utf-8;',
-  } as unknown as AxiosRequestHeaders;
+  } as AxiosRequestHeaders;
 
   return config;
 });
@@ -19,7 +17,7 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(
   (response: AxiosResponse) => response?.data,
   (error: AxiosError) => {
-    console.error('[interceptor error]:', error.toJSON());
+    console.error('[Axios interceptor error]:', error.toJSON());
 
     return Promise.reject(error);
   },
