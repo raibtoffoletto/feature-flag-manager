@@ -24,7 +24,9 @@ describe('<EditFlag />', () => {
     });
 
     await waitFor(() => {
-      expect(screen.queryByTestId(testIds.Loading)).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId(testIds.Flags.content_list_placeholder),
+      ).not.toBeInTheDocument();
     });
   }
 
@@ -45,17 +47,22 @@ describe('<EditFlag />', () => {
   it('adds text flag to environment', async () => {
     await setup();
 
-    const envCard = screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0];
-    const button = within(envCard).queryAllByTestId(testIds.Flags.pane_edit_add)[0];
+    const button = within(
+      screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0],
+    ).queryAllByTestId(testIds.Flags.pane_edit_add)[0];
 
     expect(button).toBeInTheDocument();
     await userEvent.click(button);
 
     await waitFor(() => {
-      expect(screen.queryByTestId(testIds.Loading)).not.toBeInTheDocument();
+      expect(
+        within(screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0]).getByRole(
+          'textbox',
+        ),
+      ).toBeInTheDocument();
     });
 
-    expect(within(envCard).getByRole('textbox')).toBeInTheDocument();
+    const envCard = screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0];
 
     expect(
       within(envCard).queryAllByTestId(testIds.Flags.pane_edit_save)[0],
@@ -69,33 +76,41 @@ describe('<EditFlag />', () => {
   it('adds bool flag to environment', async () => {
     await setup(flags[1]);
 
-    const envCard = screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0];
-
     await userEvent.click(
-      within(envCard).queryAllByTestId(testIds.Flags.pane_edit_add)[0],
+      within(
+        screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0],
+      ).queryAllByTestId(testIds.Flags.pane_edit_add)[0],
     );
 
     await waitFor(() => {
-      expect(screen.queryByTestId(testIds.Loading)).not.toBeInTheDocument();
+      expect(
+        within(screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0]).getByRole(
+          'checkbox',
+        ),
+      ).toBeInTheDocument();
     });
-
-    expect(within(envCard).getByRole('checkbox')).toBeInTheDocument();
   });
 
   it('saves bool flag to environment', async () => {
     await setup(flags[1]);
 
-    const envCard = screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0];
-
     await userEvent.click(
-      within(envCard).queryAllByTestId(testIds.Flags.pane_edit_add)[0],
+      within(
+        screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0],
+      ).queryAllByTestId(testIds.Flags.pane_edit_add)[0],
     );
 
     await waitFor(() => {
-      expect(screen.queryByTestId(testIds.Loading)).not.toBeInTheDocument();
+      expect(
+        within(screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0]).getByRole(
+          'checkbox',
+        ),
+      ).toBeInTheDocument();
     });
 
-    const toggle = within(envCard).getByRole('checkbox');
+    const toggle = within(
+      screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0],
+    ).getByRole('checkbox');
     expect(toggle).toBeInTheDocument();
 
     await userEvent.click(toggle);
@@ -108,11 +123,23 @@ describe('<EditFlag />', () => {
     expect(toggle).toBeChecked();
 
     await userEvent.click(
-      within(envCard).queryAllByTestId(testIds.Flags.pane_edit_save)[0],
+      within(
+        screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0],
+      ).getAllByTestId(testIds.Flags.pane_edit_save)[0],
     );
 
+    expect(
+      within(
+        screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0],
+      ).queryAllByTestId(testIds.Flags.pane_edit_save)[0],
+    ).toBeUndefined();
+
     await waitFor(() => {
-      expect(screen.queryByTestId(testIds.Loading)).not.toBeInTheDocument();
+      expect(
+        within(screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0]).getByRole(
+          'checkbox',
+        ),
+      ).toBeInTheDocument();
     });
 
     expect(toggle).toBeChecked();
@@ -121,37 +148,51 @@ describe('<EditFlag />', () => {
   it('removes flag to environment', async () => {
     await setup();
 
-    const envCard = screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0];
-
     await userEvent.click(
-      within(envCard).queryAllByTestId(testIds.Flags.pane_edit_add)[0],
+      within(
+        screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0],
+      ).queryAllByTestId(testIds.Flags.pane_edit_add)[0],
     );
 
     await waitFor(() => {
-      expect(screen.queryByTestId(testIds.Loading)).not.toBeInTheDocument();
+      expect(
+        within(
+          screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0],
+        ).queryAllByTestId(testIds.Flags.pane_edit_remove)[0],
+      ).toBeInTheDocument();
     });
 
     await userEvent.click(
-      within(envCard).queryAllByTestId(testIds.Flags.pane_edit_remove)[0],
+      within(
+        screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0],
+      ).queryAllByTestId(testIds.Flags.pane_edit_remove)[0],
     );
 
-    expect(within(envCard).queryByRole('checkbox')).not.toBeInTheDocument();
+    expect(
+      within(screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0]).queryByRole(
+        'checkbox',
+      ),
+    ).not.toBeInTheDocument();
   }, 10000);
 
   it('validates text flag content', async () => {
     await setup();
 
-    const envCard = screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0];
-
     await userEvent.click(
-      within(envCard).queryAllByTestId(testIds.Flags.pane_edit_add)[0],
+      within(
+        screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0],
+      ).queryAllByTestId(testIds.Flags.pane_edit_add)[0],
     );
 
     await waitFor(() => {
-      expect(screen.queryByTestId(testIds.Loading)).not.toBeInTheDocument();
+      within(screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0]).getByRole(
+        'textbox',
+      );
     });
 
-    const input = within(envCard).getByRole('textbox');
+    const input = within(
+      screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0],
+    ).getByRole('textbox');
 
     await userEvent.type(input, 'value');
 
@@ -163,22 +204,29 @@ describe('<EditFlag />', () => {
     expect(screen.queryByText(/Failed the validation/i)).not.toBeInTheDocument();
   });
 
-  it('faills on invalid regex', async () => {
+  it('fails on invalid regex', async () => {
     await setup({ key: 'key', valueType: 'string', validation: '(foo' });
 
-    const envCard = screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0];
-
     await userEvent.click(
-      within(envCard).queryAllByTestId(testIds.Flags.pane_edit_add)[0],
+      within(
+        screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0],
+      ).queryAllByTestId(testIds.Flags.pane_edit_add)[0],
     );
 
     await waitFor(() => {
-      expect(screen.queryByTestId(testIds.Loading)).not.toBeInTheDocument();
+      expect(
+        within(screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0]).getByRole(
+          'textbox',
+        ),
+      ).toBeInTheDocument();
     });
 
-    const input = within(envCard).getByRole('textbox');
-
-    await userEvent.type(input, 'foo');
+    await userEvent.type(
+      within(screen.queryAllByTestId(testIds.Flags.pane_edit_environment)[0]).getByRole(
+        'textbox',
+      ),
+      'foo',
+    );
 
     expect(screen.getByText(/Failed the validation/i)).toBeInTheDocument();
   });
