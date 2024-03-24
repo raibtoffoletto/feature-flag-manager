@@ -22,6 +22,10 @@ const mapFlagRequest =
 
       const { value } = await getTenantFlag(url, tenantId);
 
+      if (value === undefined || value === null) {
+        throw new Error();
+      }
+
       environmentFlag = {
         ...env,
         value,
@@ -45,7 +49,7 @@ export function FlagViewContextProvider({ flag, children }: IParent & { flag: Fl
   const { tenant } = useUserContext();
   const { settings } = useSettingsContext();
   const [environments, setEnvironments] = useState<EnvironmentFlag[]>([]);
-
+  console.debug(environments);
   const getFlagValues = useCallback(async () => {
     if (!tenant?.id) {
       return setLoading(false);

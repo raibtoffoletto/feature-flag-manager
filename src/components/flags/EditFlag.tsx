@@ -1,6 +1,6 @@
 import ActionButton from '@components/common/ActionButton';
-import Loading from '@components/common/Loading';
 import useFlagViewContext from '@hooks/context/useFlagViewContext';
+import useSettingsContext from '@hooks/context/useSettingsContext';
 import {
   AddCircle as AddCircleIcon,
   Delete as DeleteIcon,
@@ -10,6 +10,7 @@ import {
   Box,
   Fade,
   FormControlLabel,
+  Skeleton,
   Stack,
   Switch,
   TextField,
@@ -21,6 +22,25 @@ import FlagAction from './FlagAction';
 
 function parseBool(value: string) {
   return value.toLowerCase().trim() === 'true';
+}
+
+function EnvironmentCard({ children }: IParent) {
+  return (
+    <Stack
+      p={2}
+      gap={2}
+      data-testid={testIds.Flags.pane_edit_environment}
+      sx={{
+        borderRadius: '16px',
+        backgroundColor: 'rgba(0, 0, 0, 0.02)',
+        width: { xs: '100%', sm: 'calc(33% - 16px)' },
+        minWidth: 'max-content',
+        boxShadow: ({ shadows }) => shadows[1],
+      }}
+    >
+      {children}
+    </Stack>
+  );
 }
 
 function EnvironmentFlag({ exists, name, url, value }: EnvironmentFlag) {
@@ -40,18 +60,7 @@ function EnvironmentFlag({ exists, name, url, value }: EnvironmentFlag) {
   }, [currentValue, validation]);
 
   return (
-    <Stack
-      p={2}
-      gap={2}
-      data-testid={testIds.Flags.pane_edit_environment}
-      sx={{
-        borderRadius: '16px',
-        backgroundColor: 'rgba(0, 0, 0, 0.02)',
-        width: { xs: '100%', sm: 'calc(33% - 16px)' },
-        minWidth: 'max-content',
-        boxShadow: ({ shadows }) => shadows[1],
-      }}
-    >
+    <EnvironmentCard>
       <Typography variant="h5" sx={{ flexGrow: exists ? undefined : 1 }}>
         {name}
         {`: `}
@@ -137,11 +146,12 @@ function EnvironmentFlag({ exists, name, url, value }: EnvironmentFlag) {
           />
         )}
       </Stack>
-    </Stack>
+    </EnvironmentCard>
   );
 }
 
 export default function EditFlag() {
+  const { settings } = useSettingsContext();
   const { environments, key, valueType, validation, isLoading } = useFlagViewContext();
 
   return (
@@ -159,8 +169,6 @@ export default function EditFlag() {
           <Typography variant="h4" component="h2">
             {key}
           </Typography>
-
-          {isLoading && <Loading />}
         </Stack>
 
         <Stack
@@ -171,9 +179,23 @@ export default function EditFlag() {
             flexWrap: 'wrap',
           }}
         >
-          {environments.map((env) => (
-            <EnvironmentFlag key={env.id} {...env} />
-          ))}
+          {isLoading
+            ? settings.environments.map(({ id, name }) => (
+                <EnvironmentCard key={`${id}//${name}`}>
+                  <Typography variant="h5">
+                    {name}
+                    {`: `}
+                  </Typography>
+
+                  <Skeleton
+                    variant="rounded"
+                    width={valueType === 'boolean' ? 200 : 220}
+                    height={valueType === 'boolean' ? 90 : 100}
+                    data-testid={testIds.Flags.content_list_placeholder}
+                  />
+                </EnvironmentCard>
+              ))
+            : environments.map((env) => <EnvironmentFlag key={env.id} {...env} />)}
         </Stack>
 
         <FlagAction key={key} edit flag={{ key, valueType, validation }} />

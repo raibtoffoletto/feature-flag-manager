@@ -5,25 +5,27 @@ import toJson from './toJson';
 import toStatus from './toStatus';
 import wait from './wait';
 
-export default function handleEnvironment(route: string) {
-  const getStorageKey = (id: string) => `${id}||${route}`;
+function getStorageKey(tenant: string, url: string) {
+  return `${tenant}||${url.replace(/\/[^/]*$/, '')}`;
+}
 
+export default function handleEnvironment(route: string) {
   return [
-    http.get(route, async ({ params, request }) => {
+    http.get(route, async ({ params, request: { headers, url } }) => {
       await wait();
 
       const key = params.key;
-      const tenant = request.headers.get(LocalStorageKey.tenantId);
+      const tenant = headers.get(LocalStorageKey.tenantId);
 
       if (!tenant || !key) {
-        return toStatus(403);
+        return toStatus(412);
       }
-      const flags = getStorageItem<FlagValue[]>(getStorageKey(tenant), []);
+      const flags = getStorageItem<FlagValue[]>(getStorageKey(tenant, url), []);
 
       const flag = flags.find((x) => x.key === key);
 
       if (!flag) {
-        return toStatus(404);
+        return toStatus(204);
       }
 
       return toJson(flag);
@@ -36,38 +38,42 @@ export default function handleEnvironment(route: string) {
       const tenant = request.headers.get(LocalStorageKey.tenantId);
 
       if (!tenant || !key) {
-        return toStatus(403);
+        return toStatus(412);
       }
 
-      const storageKey = getStorageKey(tenant);
+      const storageKey = getStorageKey(tenant, request.url);
 
-      const _flag = (await request.json()) as FlagValue;
+      try {
+        const _flag = (await request.json()) as FlagValue;
+        let flags = getStorageItem<FlagValue[]>(storageKey, []);
 
-      let flags = getStorageItem<FlagValue[]>(storageKey, []);
+        const index = flags.findIndex((x) => x.key === key);
 
-      const index = flags.findIndex((x) => x.key === key);
+        if (index < 0) {
+          flags = flags.concat([_flag]);
+        } else {
+          flags = flags.slice(0, index).concat([_flag, ...flags.slice(index + 1)]);
+        }
 
-      if (index < 0) {
-        flags = flags.concat([_flag]);
-      } else {
-        flags.splice(index, 1, _flag);
+        setStorageItem(storageKey, flags);
+
+        return toStatus();
+      } catch {
+        return toStatus(500);
       }
-
-      setStorageItem(storageKey, flags);
-
-      return toStatus();
     }),
 
-    http.delete(route, async ({ params, request }) => {
+    http.delete(route, async ({ params, request: { headers, url } }) => {
       await wait();
 
       const key = params.key;
-      const tenant = request.headers.get(LocalStorageKey.tenantId);
+      const tenant = headers.get(LocalStorageKey.tenantId);
 
       if (!tenant || !key) {
-        return toStatus(403);
+        return toStatus(412);
       }
-      const storageKey = getStorageKey(tenant);
+
+      const storageKey = getStorageKey(tenant, url);
 
       setStorageItem(
         storageKey,
